@@ -112,6 +112,7 @@ open class SettingsActivity : ActivityWFragments<FramesKonfigs>() {
         item?.let {
             when (it.itemId) {
                 android.R.id.home -> doFinish()
+/*
                 R.id.translate -> {
                     try {
                         openLink(getTranslationSite())
@@ -120,13 +121,14 @@ open class SettingsActivity : ActivityWFragments<FramesKonfigs>() {
                 }
                 else -> {
                 }
+*/
             }
         }
         return super.onOptionsItemSelected(item)
     }
     
-    open fun getTranslationSite(): String = "http://j.mp/Trnsl8Frames"
-    
+//    open fun getTranslationSite(): String = "http://j.mp/Trnsl8Frames"
+
     override fun onBackPressed() {
         super.onBackPressed()
         doFinish()

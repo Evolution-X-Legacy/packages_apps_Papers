@@ -131,6 +131,7 @@ open class SettingsFragment : PreferenceFragment() {
             false
         }
         
+/*
         navbarPref?.isChecked = configs.hasColoredNavbar
         navbarPref?.setOnPreferenceChangeListener { _, any ->
             val tint = any.toString().equals("true", true)
@@ -140,7 +141,8 @@ open class SettingsFragment : PreferenceFragment() {
             }
             true
         }
-        
+*/
+
         val columns = findPreference("columns")
         if (boolean(R.bool.isFrames)) {
             columns?.setOnPreferenceClickListener {
@@ -148,7 +150,7 @@ open class SettingsFragment : PreferenceFragment() {
                 val currentColumns = configs.columns - 1
                 dialog = activity?.mdDialog {
                     title(R.string.wallpapers_columns_setting_title)
-                    itemsSingleChoice(arrayOf(1, 2, 3, 4, 5), currentColumns) { _, which, _ ->
+                    itemsSingleChoice(arrayOf(1, 2, 3), currentColumns) { _, which, _ ->
                         if (which != currentColumns) configs.columns = which + 1
                     }
                     positiveButton(android.R.string.ok)
@@ -161,6 +163,7 @@ open class SettingsFragment : PreferenceFragment() {
             uiPrefs?.removePreference(columns)
         }
         
+/*
         val animationsPref = findPreference("animations") as? SwitchPreference
         animationsPref?.setOnPreferenceChangeListener { _, any ->
             val enable = any.toString().equals("true", true)
@@ -168,7 +171,7 @@ open class SettingsFragment : PreferenceFragment() {
                 configs.animationsEnabled = enable
             true
         }
-        
+
         val hiResPref = findPreference("hi_res_pics") as? SwitchPreference
         hiResPref?.setOnPreferenceChangeListener { _, any ->
             val enable = any.toString().equals("true", true)
@@ -186,7 +189,8 @@ open class SettingsFragment : PreferenceFragment() {
                 configs.deepSearchEnabled = enable
             true
         }
-        
+*/
+
         val storagePrefs = findPreference("storage_settings") as? PreferenceCategory
         
         downloadLocation = findPreference("wallpapers_download_location")

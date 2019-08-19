@@ -116,10 +116,12 @@ open class CreditsActivity : ThemedActivity<FramesKonfigs>() {
         item?.let {
             when (it.itemId) {
                 android.R.id.home -> finish()
+/*
                 R.id.translate -> try {
                     openLink(getTranslationSite())
                 } catch (ignored: Exception) {
                 }
+*/
                 R.id.licenses -> LicensesDialog.Builder(this)
                     .setTitle(R.string.licenses)
                     .setNotices(R.raw.notices)
