@@ -50,10 +50,24 @@ data class Credit(
                  ) {
     
     enum class Type {
-        CREATOR, DASHBOARD, DEV_CONTRIBUTION, UI_CONTRIBUTION
+        CREATOR, ROM, DASHBOARD, DEV_CONTRIBUTION, UI_CONTRIBUTION
     }
-    
+
+
     companion object {
+        private val JOEY = Credit(
+                "Joey Huab", "https://avatars3.githubusercontent.com/u/6667815?s=400", Type.ROM,
+                "https://github.com/Stallix/")
+        private val AKITO = Credit(
+                "アキト ミズキト", "https://avatars0.githubusercontent.com/u/44841395?s=400", Type.ROM,
+                "https://github.com/peaktogoo/")
+        private val BLISS = Credit(
+                "Anierin Bliss", "https://avatars3.githubusercontent.com/u/29746164?s=400", Type.ROM,
+                "https://github.com/AnierinBliss/")
+        private val SHEN = Credit(
+                "Wenlin Shen", "https://avatars1.githubusercontent.com/u/21334079?s=400", Type.ROM,
+                "https://github.com/hugwalk/")
+
         private val JAMES = Credit(
             "James Fenn", "https://goo.gl/6Wc5rK", Type.DEV_CONTRIBUTION,
             "https://jfenn.me/")
@@ -78,19 +92,20 @@ data class Credit(
             "https://twitter.com/pgoworowski")
         private val LUMIQ = Credit(
             "Lumiq Creative",
-            "https://raw.githubusercontent.com/lumiqcreative/resources/master/brand_resources/profile_picture.png",
+            "https://avatars3.githubusercontent.com/u/30959743?s=400",
             Type.UI_CONTRIBUTION, "https://lumiqcreative.com/")
         private val KEVIN = Credit(
             "Kevin Aguilar", "https://goo.gl/mGuAM9", Type.UI_CONTRIBUTION,
             "https://twitter.com/kevttob")
         private val EDUARDO = Credit(
-            "Eduardo Pratti", "https://goo.gl/TSKB7s",
+            "Eduardo Pratti", "https://cdn.dribbble.com/users/715267/avatars/small/eccd508df959e4a336c4bba511fc873c.png",
             Type.UI_CONTRIBUTION, "https://pratti.design/")
         private val ANTHONY = Credit(
-            "Anthony Nguyen", "https://goo.gl/zxiBQE",
+            "Anthony Nguyen", "https://pbs.twimg.com/profile_images/898596308692254723/C6Ffp1_W.jpg",
             Type.UI_CONTRIBUTION, "https://twitter.com/link6155")
         
         val EXTRA_CREDITS = arrayListOf(
+            JOEY, AKITO, BLISS, SHEN,
             JAMES, MAX, SASI, ALEX, LUKAS,
             PATRYK, LUMIQ, KEVIN, EDUARDO, ANTHONY)
     }
@@ -128,7 +143,7 @@ class SectionedHeaderViewHolder(itemView: View) : SectionedViewHolder(itemView) 
         } else divider?.gone()
         
         if (text.hasContent()) {
-            title?.setTextColor(context.secondaryTextColor)
+            title?.setTextColor(context.accentColor)
             title?.text = text
             container?.visible()
         } else container?.gone()

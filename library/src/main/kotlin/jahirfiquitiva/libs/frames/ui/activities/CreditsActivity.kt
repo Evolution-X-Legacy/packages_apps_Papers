@@ -126,8 +126,10 @@ open class CreditsActivity : ThemedActivity<FramesKonfigs>() {
         recyclerView?.isNestedScrollingEnabled = false
         
         try {
+            adapter.collapseSection(1)
             adapter.collapseSection(2)
             adapter.collapseSection(3)
+            adapter.collapseSection(4)
         } catch (ignored: Exception) {
         }
         

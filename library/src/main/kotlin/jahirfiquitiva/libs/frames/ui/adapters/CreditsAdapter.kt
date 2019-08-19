@@ -38,7 +38,11 @@ class CreditsAdapter(
     private val creatorCredits: ArrayList<Credit> by lazy {
         credits.jfilter { it.type == Credit.Type.CREATOR }
     }
-    
+
+    private val romCredits: ArrayList<Credit> by lazy {
+        credits.jfilter { it.type == Credit.Type.ROM }
+    }
+
     private val dashboardCredits: ArrayList<Credit> by lazy {
         credits.jfilter { it.type == Credit.Type.DASHBOARD }
     }
@@ -56,7 +60,7 @@ class CreditsAdapter(
         shouldShowFooters(false)
     }
     
-    override fun getSectionCount(): Int = 4
+    override fun getSectionCount(): Int = 5
     
     override fun getItemViewType(
         section: Int, relativePosition: Int,
@@ -71,9 +75,10 @@ class CreditsAdapter(
             if (it is DashboardCreditViewHolder) {
                 when (section) {
                     0 -> it.setItem(manager, creatorCredits[relativePosition])
-                    1 -> it.setItem(manager, dashboardCredits[relativePosition])
-                    2 -> it.setItem(manager, devCredits[relativePosition])
-                    3 -> it.setItem(manager, uiCredits[relativePosition])
+                    1 -> it.setItem(manager, romCredits[relativePosition])
+                    2 -> it.setItem(manager, dashboardCredits[relativePosition])
+                    3 -> it.setItem(manager, devCredits[relativePosition])
+                    4 -> it.setItem(manager, uiCredits[relativePosition])
                 }
             }
         }
@@ -82,9 +87,10 @@ class CreditsAdapter(
     override fun getItemCount(section: Int): Int =
         when (section) {
             0 -> creatorCredits.size
-            1 -> dashboardCredits.size
-            2 -> devCredits.size
-            3 -> uiCredits.size
+            1 -> romCredits.size
+            2 -> dashboardCredits.size
+            3 -> devCredits.size
+            4 -> uiCredits.size
             else -> 0
         }
     
@@ -95,11 +101,16 @@ class CreditsAdapter(
         (holder as? SectionedHeaderViewHolder)?.let {
             when (section) {
                 0 -> it.setTitle(R.string.app_name, false, false, expanded)
-                1 -> it.setTitle(dashboardTitle, true, false, expanded)
-                2 -> it.setTitle(R.string.dev_contributions, true, true, expanded) {
+                1 -> it.setTitle("Evolution X", true, true, expanded) {
                     toggleSectionExpanded(section)
                 }
-                3 -> it.setTitle(R.string.ui_contributions, true, true, expanded) {
+                2 -> it.setTitle(dashboardTitle, true, true, expanded) {
+                    toggleSectionExpanded(section)
+                }
+                3 -> it.setTitle(R.string.dev_contributions, true, true, expanded) {
+                    toggleSectionExpanded(section)
+                }
+                4 -> it.setTitle(R.string.ui_contributions, true, true, expanded) {
                     toggleSectionExpanded(section)
                 }
             }
@@ -108,8 +119,8 @@ class CreditsAdapter(
     
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SectionedViewHolder =
         when (viewType) {
-            0, 1 -> DashboardCreditViewHolder(parent.inflate(R.layout.item_credits))
-            2, 3 -> SimpleCreditViewHolder(parent.inflate(R.layout.item_credits))
+            0, 2 -> DashboardCreditViewHolder(parent.inflate(R.layout.item_credits))
+            1, 3, 4 -> SimpleCreditViewHolder(parent.inflate(R.layout.item_credits))
             else -> SectionedHeaderViewHolder(parent.inflate(R.layout.item_section_header))
         }
     
