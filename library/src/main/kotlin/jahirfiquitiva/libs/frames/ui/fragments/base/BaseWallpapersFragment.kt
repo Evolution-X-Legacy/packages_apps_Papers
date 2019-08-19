@@ -440,7 +440,7 @@ abstract class BaseWallpapersFragment : BaseFramesFragment<Wallpaper, WallpaperH
                             position) as? WallpaperHolder?
                     holder?.let {
                         wallElementsCallback.setSharedElementViews(
-                            it.img, it.name, it.author, it.heartIcon)
+                            it.img, it.name, it.author)
                     }
                     activity?.safeStartPostponedEnterTransition()
                     return true

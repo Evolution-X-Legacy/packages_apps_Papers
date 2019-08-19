@@ -355,8 +355,8 @@ open class ViewerActivity : BaseWallpaperActionsActivity<FramesKonfigs>() {
         if (showFavoritesButton) {
             val favIcon = drawable(if (isInFavorites) "ic_heart" else "ic_heart_outline")
             val favImageView: ImageView? by bind(R.id.fav_button)
-            val favTransitionName = "fav_transition_$currentWallPosition"
-            favImageView.notNull { ViewCompat.setTransitionName(it, favTransitionName) }
+//            val favTransitionName = "fav_transition_$currentWallPosition"
+//            favImageView.notNull { ViewCompat.setTransitionName(it, favTransitionName) }
             favImageView?.setImageDrawable(favIcon)
             findViewById<View>(R.id.fav_button).setOnClickListener {
                 doItemClick(FAVORITE_ACTION_ID)
@@ -821,7 +821,7 @@ open class ViewerActivity : BaseWallpaperActionsActivity<FramesKonfigs>() {
             .start()
     }
     
-    override fun onConfigurationChanged(newConfig: Configuration?) {
+    override fun onConfigurationChanged(newConfig: Configuration) {
         super.onConfigurationChanged(newConfig)
         setupProgressBarColors()
     }
