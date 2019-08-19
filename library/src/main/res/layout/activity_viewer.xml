@@ -106,6 +106,7 @@
                         android:layout_height="wrap_content"
                         android:textColor="@android:color/white"
                         android:textAppearance="@style/TextAppearance.Widget.AppCompat.Toolbar.Title"
+                        android:textStyle="bold"
                         tools:text="Title" />
 
                     <TextView
