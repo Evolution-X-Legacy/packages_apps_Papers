@@ -15,40 +15,53 @@
  */
 package jahirfiquitiva.libs.frames.ui.activities
 
+import android.Manifest
 import android.annotation.SuppressLint
+import android.app.Activity
 import android.content.Context
+import android.content.Intent
 import android.os.Bundle
+import android.os.Environment
+import android.preference.*
 import android.view.Menu
 import android.view.MenuItem
+import android.widget.ListView
 import androidx.annotation.StringRes
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import androidx.room.Room
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import ca.allanwang.kau.utils.openLink
+import ca.allanwang.kau.utils.snackbar
+import ca.allanwang.kau.utils.toast
+import com.afollestad.materialdialogs.MaterialDialog
+import com.afollestad.materialdialogs.files.folderChooser
+import com.afollestad.materialdialogs.list.listItemsSingleChoice
 import com.bumptech.glide.Glide
-import com.pluscubed.recyclerfastscroll.RecyclerFastScroller
+import com.fondesa.kpermissions.extension.listeners
+import com.fondesa.kpermissions.extension.permissionsBuilder
+import com.fondesa.kpermissions.request.runtime.nonce.PermissionNonce
+import com.google.android.material.snackbar.Snackbar
 import de.psdev.licensesdialog.LicenseResolver
 import de.psdev.licensesdialog.LicensesDialog
 import de.psdev.licensesdialog.licenses.License
+import jahirfiquitiva.libs.archhelpers.extensions.mdDialog
 import jahirfiquitiva.libs.frames.R
+import jahirfiquitiva.libs.frames.data.models.db.FavoritesDatabase
+import jahirfiquitiva.libs.frames.helpers.extensions.clearDataAndCache
+import jahirfiquitiva.libs.frames.helpers.extensions.dataCacheSize
+import jahirfiquitiva.libs.frames.helpers.utils.DATABASE_NAME
 import jahirfiquitiva.libs.frames.helpers.utils.FL
 import jahirfiquitiva.libs.frames.helpers.utils.FramesKonfigs
 import jahirfiquitiva.libs.frames.ui.adapters.CreditsAdapter
 import jahirfiquitiva.libs.frames.ui.adapters.viewholders.Credit
 import jahirfiquitiva.libs.frames.ui.widgets.CustomToolbar
 import jahirfiquitiva.libs.frames.ui.widgets.EmptyViewRecyclerView
-import jahirfiquitiva.libs.kext.extensions.bind
-import jahirfiquitiva.libs.kext.extensions.dividerColor
-import jahirfiquitiva.libs.kext.extensions.getActiveIconsColorFor
-import jahirfiquitiva.libs.kext.extensions.getPrimaryTextColorFor
-import jahirfiquitiva.libs.kext.extensions.getSecondaryTextColorFor
-import jahirfiquitiva.libs.kext.extensions.hasContent
-import jahirfiquitiva.libs.kext.extensions.isInHorizontalMode
-import jahirfiquitiva.libs.kext.extensions.primaryColor
-import jahirfiquitiva.libs.kext.extensions.stringArray
-import jahirfiquitiva.libs.kext.extensions.tint
+import jahirfiquitiva.libs.kext.extensions.*
 import jahirfiquitiva.libs.kext.ui.activities.ThemedActivity
+import org.jetbrains.anko.doAsync
+import java.io.File
 
 open class CreditsActivity : ThemedActivity<FramesKonfigs>() {
     
@@ -60,11 +73,29 @@ open class CreditsActivity : ThemedActivity<FramesKonfigs>() {
     
     override fun autoTintStatusBar(): Boolean = true
     override fun autoTintNavigationBar(): Boolean = true
+
+    private val preferenceManager: PreferenceManager by lazy {
+        val c = PreferenceManager::class.java.getDeclaredConstructor(Activity::class.java, Int::class.javaPrimitiveType).apply { isAccessible = true }
+        c.newInstance(this, 100)
+    }
+    private val preferenceScreen: PreferenceScreen by lazy {
+        val m = preferenceManager::class.java.getDeclaredMethod(
+                "inflateFromResource",
+                Context::class.java,
+                Int::class.javaPrimitiveType,
+                PreferenceScreen::class.java
+        )
+        m.invoke(preferenceManager, this, R.xml.preferences, null) as PreferenceScreen
+    }
+    private var dialog: MaterialDialog? = null
+    private var database: FavoritesDatabase? = null
+    private var downloadLocation: Preference? = null
+    private var hasClearedFavs = false
     
     private val toolbar: CustomToolbar? by bind(R.id.toolbar)
+    private val preferenceList: ListView? by bind(R.id.pref_list)
     private val recyclerView: EmptyViewRecyclerView? by bind(R.id.list_rv)
-    private val fastScroller: RecyclerFastScroller? by bind(R.id.fast_scroller)
-    
+
     @SuppressLint("MissingSuperCall")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -74,6 +105,9 @@ open class CreditsActivity : ThemedActivity<FramesKonfigs>() {
         
         toolbar?.bindToActivity(this)
         supportActionBar?.title = getString(R.string.about)
+
+        initPreferences()
+        initDatabase()
         
         val refreshLayout: SwipeRefreshLayout? by bind(R.id.swipe_to_refresh)
         refreshLayout?.isEnabled = false
@@ -88,8 +122,7 @@ open class CreditsActivity : ThemedActivity<FramesKonfigs>() {
         val adapter = CreditsAdapter(getDashboardTitle(), Glide.with(this), buildCreditsList())
         adapter.setLayoutManager(layoutManager)
         recyclerView?.adapter = adapter
-        
-        recyclerView?.let { fastScroller?.attachRecyclerView(it) }
+        recyclerView?.isNestedScrollingEnabled = false
         
         try {
             adapter.collapseSection(2)
@@ -134,6 +167,11 @@ open class CreditsActivity : ThemedActivity<FramesKonfigs>() {
             }
         }
         return super.onOptionsItemSelected(item)
+    }
+
+    override fun onBackPressed() {
+        doFinish()
+        super.onBackPressed()
     }
     
     open fun getTranslationSite(): String = "http://j.mp/Trnsl8Frames"
@@ -240,7 +278,248 @@ open class CreditsActivity : ThemedActivity<FramesKonfigs>() {
         }
         return list
     }
-    
+
+    private fun findPreference(key: String) = preferenceScreen.findPreference(key)
+
+    private val request by lazy {
+        permissionsBuilder(Manifest.permission.WRITE_EXTERNAL_STORAGE).build()
+    }
+
+    private fun requestStoragePermission(explanation: String, whenAccepted: () -> Unit) {
+        try {
+            request.detachAllListeners()
+        } catch (e: Exception) {
+        }
+        request.listeners {
+            onAccepted { whenAccepted() }
+            onDenied {
+                snackbar(R.string.permission_denied, duration = Snackbar.LENGTH_LONG)
+            }
+            onPermanentlyDenied {
+                snackbar(R.string.permission_denied_completely, duration = Snackbar.LENGTH_LONG)
+            }
+            onShouldShowRationale { _, nonce -> showPermissionInformation(explanation, nonce) }
+        }
+        request.send()
+    }
+
+    private fun initDatabase() {
+        if (boolean(R.bool.isFrames) && database == null) {
+            database = Room.databaseBuilder(
+                    this, FavoritesDatabase::class.java,
+                    DATABASE_NAME).fallbackToDestructiveMigration().build()
+        }
+    }
+
+    open fun initPreferences() {
+        preferenceScreen.bind(preferenceList)
+
+        val uiPrefs = findPreference("ui_settings") as? PreferenceCategory
+
+        val themePref = findPreference("theme")
+        themePref?.setOnPreferenceClickListener {
+            clearDialog()
+            val currentTheme = prefs.currentTheme
+            dialog = mdDialog {
+                title(R.string.theme_setting_title)
+                listItemsSingleChoice(
+                        R.array.themes_options, initialSelection = currentTheme) { _, index, _ ->
+                    if (index != currentTheme) {
+                        prefs.currentTheme = index
+                        onThemeChanged()
+                    }
+                }
+                positiveButton(android.R.string.ok)
+                negativeButton(android.R.string.cancel)
+            }
+            dialog?.show()
+            false
+        }
+
+        val columns = findPreference("columns")
+        if (boolean(R.bool.isFrames)) {
+            columns?.setOnPreferenceClickListener {
+                clearDialog()
+                val currentColumns = prefs.columns - 1
+                dialog = mdDialog {
+                    title(R.string.wallpapers_columns_setting_title)
+                    itemsSingleChoice(arrayOf(1, 2, 3), currentColumns) { _, which, _ ->
+                        if (which != currentColumns) prefs.columns = which + 1
+                    }
+                    positiveButton(android.R.string.ok)
+                    negativeButton(android.R.string.cancel)
+                }
+                dialog?.show()
+                false
+            }
+        } else {
+            uiPrefs?.removePreference(columns)
+        }
+
+        val storagePrefs = findPreference("storage_settings") as? PreferenceCategory
+
+        downloadLocation = findPreference("wallpapers_download_location")
+        updateDownloadLocation()
+        downloadLocation?.setOnPreferenceClickListener {
+            requestPermission()
+            true
+        }
+
+        val clearData = findPreference("clear_data")
+        clearData?.summary = getString(R.string.data_cache_setting_content, dataCacheSize)
+        clearData?.setOnPreferenceClickListener {
+            clearDialog()
+            dialog = mdDialog {
+                title(R.string.data_cache_setting_title)
+                message(R.string.data_cache_confirmation)
+                negativeButton(android.R.string.cancel)
+                positiveButton(android.R.string.ok) {
+                    clearDataAndCache()
+                    clearData.summary = getString(
+                            R.string.data_cache_setting_content,
+                            dataCacheSize)
+                }
+            }
+            dialog?.show()
+            true
+        }
+
+        val clearDatabase = findPreference("clear_database")
+        if (boolean(R.bool.isFrames)) {
+            clearDatabase?.setOnPreferenceClickListener {
+                clearDialog()
+                dialog = mdDialog {
+                    title(R.string.clear_favorites_setting_title)
+                    message(R.string.clear_favorites_confirmation)
+                    negativeButton(android.R.string.cancel)
+                    positiveButton(android.R.string.ok) {
+                        doAsync {
+                            database?.favoritesDao()?.nukeFavorites()
+                            hasClearedFavs = true
+                        }
+                    }
+                }
+                dialog?.show()
+                true
+            }
+        } else {
+            storagePrefs?.removePreference(clearDatabase)
+        }
+
+        val notifPref = findPreference("enable_notifications") as? SwitchPreference
+        notifPref?.isChecked = prefs.notificationsEnabled
+        notifPref?.setOnPreferenceChangeListener { _, any ->
+            val enable = any.toString().equals("true", true)
+            if (enable != prefs.notificationsEnabled) {
+                prefs.notificationsEnabled = enable
+            }
+            true
+        }
+
+        val privacyLink = try {
+            string(R.string.privacy_policy_link, "")
+        } catch (e: Exception) {
+            ""
+        }
+
+        val termsLink = try {
+            string(R.string.terms_conditions_link, "")
+        } catch (e: Exception) {
+            ""
+        }
+
+        val prefsScreen = findPreference("preferences") as? PreferenceScreen
+        val legalCategory = findPreference("legal") as? PreferenceCategory
+
+        if (privacyLink.hasContent() || termsLink.hasContent()) {
+            val privacyPref = findPreference("privacy")
+            if (privacyLink.hasContent()) {
+                privacyPref?.setOnPreferenceClickListener {
+                    try {
+                        openLink(privacyLink)
+                    } catch (e: Exception) {
+                    }
+                    true
+                }
+            } else {
+                legalCategory?.removePreference(privacyPref)
+            }
+
+            val termsPref = findPreference("terms")
+            if (termsLink.hasContent()) {
+                termsPref?.setOnPreferenceClickListener {
+                    try {
+                        openLink(termsLink)
+                    } catch (e: Exception) {
+                    }
+                    true
+                }
+            } else {
+                legalCategory?.removePreference(termsPref)
+            }
+        } else {
+            prefsScreen?.removePreference(legalCategory)
+        }
+    }
+
+    fun showLocationChooserDialog() {
+        clearDialog()
+        try {
+            dialog = mdDialog {
+                folderChooser(
+                        initialDirectory = try {
+                            File(prefs.downloadsFolder)
+                        } catch (e: Exception) {
+                            @Suppress("DEPRECATION")
+                            context.getExternalFilesDir(null)
+                                    ?: Environment.getExternalStorageDirectory()
+                        },
+                        allowFolderCreation = true,
+                        folderCreationLabel = R.string.create_folder) { dialog, folder ->
+                    prefs.downloadsFolder = folder.absolutePath
+                    updateDownloadLocation()
+                    dialog.dismiss()
+                }
+                positiveButton(R.string.choose_folder)
+            }
+            dialog?.show()
+        } catch (e: Exception) {
+            toast(R.string.error_title)
+        }
+    }
+
+    fun requestPermission() {
+        requestStoragePermission(getString(R.string.permission_request, getAppName())) {
+            showLocationChooserDialog()
+        }
+    }
+
+    private fun showPermissionInformation(explanation: String, nonce: PermissionNonce) {
+        snackbar(explanation) {
+            setAction(R.string.allow) {
+                dismiss()
+                nonce.use()
+                requestPermission()
+            }
+        }
+    }
+
+    fun updateDownloadLocation() {
+        downloadLocation?.summary = getString(
+                R.string.wallpapers_download_location_setting_content, prefs.downloadsFolder)
+    }
+
+    fun clearDialog() {
+        dialog?.dismiss()
+        dialog = null
+    }
+
+    private fun doFinish() {
+        val intent = Intent()
+        intent.putExtra("clearedFavs", hasClearedFavs)
+        setResult(22, intent)
+    }
+
     private companion object {
         const val JAHIR_PHOTO_URL =
             "https://github.com/jahirfiquitiva/Website-Resources/raw/master/myself/me-square-white.png"

@@ -229,9 +229,6 @@ abstract class FramesActivity : BaseFramesActivity<FramesKonfigs>(), FavsDbManag
         menuInflater.inflate(R.menu.frames_menu, menu)
         
         menu?.let {
-            val donationItem = it.findItem(R.id.donate)
-            donationItem?.isVisible = donationsEnabled
-            
             searchItem = it.findItem(R.id.search)
             searchView = searchItem?.actionView as? CustomSearchView
             searchView?.onExpand = { toolbar?.enableScroll(false) }
@@ -258,11 +255,8 @@ abstract class FramesActivity : BaseFramesActivity<FramesKonfigs>(), FavsDbManag
         item?.let {
             when (it.itemId) {
                 R.id.refresh -> refreshContent()
-                R.id.changelog -> showChanges()
-                R.id.about -> startActivity(Intent(this, CreditsActivity::class.java))
-                R.id.settings -> startActivityForResult(
-                    Intent(this, SettingsActivity::class.java), 22)
-                R.id.donate -> doDonation()
+                R.id.about -> startActivityForResult(
+                        Intent(this, CreditsActivity::class.java), 22)
             }
         }
         return super.onOptionsItemSelected(item)

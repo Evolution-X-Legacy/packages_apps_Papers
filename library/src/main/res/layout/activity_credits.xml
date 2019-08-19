@@ -38,6 +38,47 @@
 
     </jahirfiquitiva.libs.kext.ui.layouts.FixedElevationAppBarLayout>
 
-    <include layout="@layout/section_with_swipe_refresh" />
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+        android:id="@+id/swipe_to_refresh"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:clipToPadding="false"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+        <androidx.core.widget.NestedScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <RelativeLayout
+                android:id="@+id/list_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:clipToPadding="false"
+                android:overScrollMode="ifContentScrolls"
+                android:splitMotionEvents="false">
+
+                <include layout="@layout/extra_empty_views" />
+
+                <jahirfiquitiva.libs.frames.ui.widgets.WrapContentListView
+                    android:id="@+id/pref_list"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_alignParentTop="true" />
+
+                <jahirfiquitiva.libs.frames.ui.widgets.EmptyViewRecyclerView
+                    android:id="@+id/list_rv"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/pref_list"
+                    android:clipToPadding="false"
+                    android:overScrollMode="ifContentScrolls"
+                    android:splitMotionEvents="false"
+                    app:layout_behavior="@string/appbar_scrolling_view_behavior" />
+
+            </RelativeLayout>
+
+        </androidx.core.widget.NestedScrollView>
+
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
