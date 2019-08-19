@@ -15,17 +15,17 @@
   -->
 <resources>
     <!-- Your app name -->
-    <string name="app_name">Frames</string>
+    <string name="app_name">Papers</string>
 
     <!--    This one applies for Muzei too. Try not to exceed 140 characters -->
-    <string name="app_description">A great wallpapers app with hundreds of cool pictures.</string>
+    <string name="app_description">Simple and default wallpaper app for Evolution X, based on Frames by jahirfiquitiva</string>
 
     <!--    TODO: Change this link -->
     <!--    This is the link for the JSON file where you have listed your wallpapers -->
-    <string name="json_url">https://jahirfiquitiva.com/frames/wallpapers.json</string>
+    <string name="json_url">https://raw.githubusercontent.com/hugwalk/Evolution-X-Wallpapers/master/wallpapers.json</string>
 
     <!--    Default wallpapers download folder. Always write it like '%1$s/xxxxxxx' -->
-    <string name="default_download_folder">%1$s/Frames/Wallpapers</string>
+    <string name="default_download_folder">%1$s/Papers</string>
 
     <!-- Privacy Policy link or url -->
     <string name="privacy_policy_link">""</string>

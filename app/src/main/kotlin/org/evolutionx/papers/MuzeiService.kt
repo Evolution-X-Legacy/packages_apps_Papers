@@ -18,4 +18,4 @@ package org.evolutionx.papers
 import jahirfiquitiva.libs.frames.data.services.FramesArtProvider
 
 // TODO: Use a unique name instead of MyFramesMuzeiService
-//class MuzeiService : FramesArtProvider()
+class MuzeiService : FramesArtProvider()

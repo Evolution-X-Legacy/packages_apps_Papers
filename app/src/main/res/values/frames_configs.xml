@@ -21,19 +21,19 @@
     -       True means yes
     -       False means no
     -->
-    <bool name="use_old_json_format">true</bool>
+    <bool name="use_old_json_format">false</bool>
 
     <!-- Do you want notifications to be enabled for all your users?
     -       True means yes
     -       False means no
     -->
-    <bool name="notifications_enabled_by_default">true</bool>
+    <bool name="notifications_enabled_by_default">false</bool>
 
     <!--    Show collections tab?
     -       If you have collections in your JSON, set this to true
     -       Otherwise, set it to false (is the price you pay for not doing so :P )
     -->
-    <bool name="show_collections_tab">true</bool>
+    <bool name="show_collections_tab">false</bool>
 
     <!--    Configure your own Splash Screen style
     -       Only change the parent. Available Styles:
@@ -55,7 +55,7 @@
     <integer name="default_theme">0</integer>
 
     <!--    Choose whether you want colored tiles by default -->
-    <bool name="enable_colored_tiles">true</bool>
+    <bool name="enable_colored_tiles">false</bool>
 
     <!--    Choose whether you want filled collection preview by default -->
     <bool name="enable_filled_collection_preview">false</bool>
@@ -64,19 +64,19 @@
     -       True means yes
     -       False means no
     -->
-    <bool name="show_icons_in_tabs">false</bool>
+    <bool name="show_icons_in_tabs">true</bool>
 
     <!--    Show texts in tabs
     -       True means yes
     -       False means no
     -->
-    <bool name="show_texts_in_tabs">true</bool>
+    <bool name="show_texts_in_tabs">false</bool>
 
     <!-- Use accent color in tabs
     -       True means yes
     -       False means no
     -->
-    <bool name="accent_in_tabs">false</bool>
+    <bool name="accent_in_tabs">true</bool>
 
     <!--
         Show a custom image as placeholder while loading wallpapers or collections
