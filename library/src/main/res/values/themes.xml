@@ -58,6 +58,7 @@
         <item name="isDarkTheme">false</item>
         <item name="android:fontFamily">google-sans</item>
         <item name="android:windowLayoutInDisplayCutoutMode">shortEdges</item>
+        <item name="colorControlNormal">#48000000</item>
     </style>
 
     <style name="Frames.Base.Dark" parent="Theme.AppCompat.NoActionBar">
@@ -86,14 +87,11 @@
         <item name="isDarkTheme">true</item>
         <item name="android:fontFamily">google-sans</item>
         <item name="android:windowLayoutInDisplayCutoutMode">shortEdges</item>
+        <item name="colorControlNormal">#48FFFFFF</item>
     </style>
 
     <style name="Frames.ActionBar.Title" parent="TextAppearance.AppCompat.Widget.ActionBar.Title">
         <item name="android:fontFamily">google-sans-medium</item>
-    </style>
-
-    <style name="Pref_Category">
-        <item name="android:fontFamily">google-sans-bold</item>
     </style>
 
     <style name="Frames.Base.Amoled" parent="Frames.Base.Dark">

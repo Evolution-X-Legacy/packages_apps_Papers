@@ -60,8 +60,8 @@ val Context.backgroundColor: Int
 val Context.tilesColor: Int
     get() {
         return if (usesDarkTheme) {
-            cardBackgroundColor.lighten(0.1F)
-        } else cardBackgroundColor.darken(0.1F)
+            cardBackgroundColor.lighten(0.0F)
+        } else cardBackgroundColor.darken(0.0F)
     }
 
 val Context.maxPreload

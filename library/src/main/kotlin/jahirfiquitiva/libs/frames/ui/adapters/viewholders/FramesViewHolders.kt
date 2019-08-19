@@ -40,18 +40,7 @@ import jahirfiquitiva.libs.frames.helpers.extensions.tilesColor
 import jahirfiquitiva.libs.frames.helpers.glide.GlidePaletteListener
 import jahirfiquitiva.libs.frames.helpers.glide.loadPicture
 import jahirfiquitiva.libs.frames.helpers.glide.smoothAnimator
-import jahirfiquitiva.libs.kext.extensions.bestSwatch
-import jahirfiquitiva.libs.kext.extensions.bind
-import jahirfiquitiva.libs.kext.extensions.boolean
-import jahirfiquitiva.libs.kext.extensions.context
-import jahirfiquitiva.libs.kext.extensions.drawable
-import jahirfiquitiva.libs.kext.extensions.getActiveIconsColorFor
-import jahirfiquitiva.libs.kext.extensions.getPrimaryTextColorFor
-import jahirfiquitiva.libs.kext.extensions.getSecondaryTextColorFor
-import jahirfiquitiva.libs.kext.extensions.hasContent
-import jahirfiquitiva.libs.kext.extensions.isLowRamDevice
-import jahirfiquitiva.libs.kext.extensions.notNull
-import jahirfiquitiva.libs.kext.extensions.string
+import jahirfiquitiva.libs.kext.extensions.*
 
 const val DETAILS_OPACITY = 0.8F
 const val COLLECTION_DETAILS_OPACITY = 0.4F
@@ -69,8 +58,8 @@ abstract class FramesWallpaperHolder(itemView: View) : RecyclerView.ViewHolder(i
     
     internal abstract fun doWithPalette(palette: Palette? = null)
     
-    internal val gradPrimText: Int by lazy { Color.parseColor("#ffffffff") }
-    internal val gradSecText: Int by lazy { Color.parseColor("#b3ffffff") }
+    internal val gradPrimText: Int by lazy { Color.parseColor(if (context.usesDarkTheme) "#ffffffff" else "#ff000000") }
+    internal val gradSecText: Int by lazy { Color.parseColor(if (context.usesDarkTheme) "#b3ffffff" else "#b3000000") }
     
     private val placeholderDrawable: Drawable? by lazy { context.drawable(placeholderName) }
     

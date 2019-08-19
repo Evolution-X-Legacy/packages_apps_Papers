@@ -15,7 +15,7 @@
   ~ limitations under the License.
   -->
 <resources>
-    <item name="heightMultiplier" format="float" type="dimen">1.2</item>
+    <item name="heightMultiplier" format="float" type="dimen">1.0</item>
     <item name="heightDivider" format="float" type="dimen">2.5</item>
     <item name="heightDividerFeat" format="float" type="dimen">2</item>
 </resources>
