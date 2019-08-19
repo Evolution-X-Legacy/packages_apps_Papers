@@ -90,8 +90,8 @@
 
     <string name="ui_settings_title">User Interface</string>
 
-    <string name="theme_setting_title">App theme</string>
-    <string name="theme_setting_content">Choose the main theme for the app</string>
+    <string name="theme_setting_title">Dark theme</string>
+    <string name="theme_setting_content">Enable dark theme to extend battery life</string>
 
     <!-- Light Theme -->
     <string name="light_theme">Light</string>

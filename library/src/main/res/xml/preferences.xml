@@ -21,7 +21,8 @@
         android:key="ui_settings"
         android:title="@string/ui_settings_title">
 
-        <Preference
+        <SwitchPreference
+            android:defaultValue="false"
             android:key="theme"
             android:persistent="true"
             android:summary="@string/theme_setting_content"

@@ -37,7 +37,6 @@ import ca.allanwang.kau.utils.snackbar
 import ca.allanwang.kau.utils.toast
 import com.afollestad.materialdialogs.MaterialDialog
 import com.afollestad.materialdialogs.files.folderChooser
-import com.afollestad.materialdialogs.list.listItemsSingleChoice
 import com.bumptech.glide.Glide
 import com.fondesa.kpermissions.extension.listeners
 import com.fondesa.kpermissions.extension.permissionsBuilder
@@ -59,6 +58,8 @@ import jahirfiquitiva.libs.frames.ui.adapters.viewholders.Credit
 import jahirfiquitiva.libs.frames.ui.widgets.CustomToolbar
 import jahirfiquitiva.libs.frames.ui.widgets.EmptyViewRecyclerView
 import jahirfiquitiva.libs.kext.extensions.*
+import jahirfiquitiva.libs.kext.helpers.DARK
+import jahirfiquitiva.libs.kext.helpers.LIGHT
 import jahirfiquitiva.libs.kext.ui.activities.ThemedActivity
 import org.jetbrains.anko.doAsync
 import java.io.File
@@ -316,24 +317,12 @@ open class CreditsActivity : ThemedActivity<FramesKonfigs>() {
 
         val uiPrefs = findPreference("ui_settings") as? PreferenceCategory
 
-        val themePref = findPreference("theme")
-        themePref?.setOnPreferenceClickListener {
-            clearDialog()
-            val currentTheme = prefs.currentTheme
-            dialog = mdDialog {
-                title(R.string.theme_setting_title)
-                listItemsSingleChoice(
-                        R.array.themes_options, initialSelection = currentTheme) { _, index, _ ->
-                    if (index != currentTheme) {
-                        prefs.currentTheme = index
-                        onThemeChanged()
-                    }
-                }
-                positiveButton(android.R.string.ok)
-                negativeButton(android.R.string.cancel)
-            }
-            dialog?.show()
-            false
+        val themePref = findPreference("theme") as? SwitchPreference
+        themePref?.setOnPreferenceChangeListener { _, result ->
+            val isDark = result as Boolean
+            prefs.currentTheme = if (isDark) DARK else LIGHT
+            onThemeChanged()
+            true
         }
 
         val columns = findPreference("columns")
