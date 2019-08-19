@@ -23,8 +23,8 @@ ext.details = [
 ext.versions = [
         // Projects
         minSdk               : 28,
-        targetSdk            : 28,
-        buildTools           : '28.0.3',
+        targetSdk            : 29,
+        buildTools           : '29.0.2',
         versionCode          : 200,
         versionName          : '2.0.0',
         // Gradle Plugins
