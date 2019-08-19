@@ -18,7 +18,7 @@
     <string name="app_name">Papers</string>
 
     <!--    This one applies for Muzei too. Try not to exceed 140 characters -->
-    <string name="app_description">Simple and default wallpaper app for Evolution X, based on Frames by jahirfiquitiva</string>
+    <string name="app_description">Simple and default wallpaper app for Evolution X, based on Frames by Jahir Fiquitiva</string>
 
     <!--    TODO: Change this link -->
     <!--    This is the link for the JSON file where you have listed your wallpapers -->

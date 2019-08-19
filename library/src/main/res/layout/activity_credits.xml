@@ -32,6 +32,7 @@
             android:layout_width="match_parent"
             android:layout_height="?actionBarSize"
             android:background="?colorPrimary"
+            app:titleTextAppearance="@style/Frames.ActionBar.Title"
             android:theme="?attr/actionBarTheme"
             app:popupTheme="?attr/popupMenuStyle"
             app:layout_collapseMode="pin" />
