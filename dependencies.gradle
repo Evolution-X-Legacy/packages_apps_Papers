@@ -38,7 +38,7 @@ ext.versions = [
         permissions          : '2.0.1',
         materialDialogs      : '3.1.0',
         glide                : '4.9.0',
-        kext                 : '3b5a8d7',
+        kext                 : '447d9d2',
         sectionedRecyclerView: 'ab5709a',
         rvFastScroll         : '67cdb7e',
         chips                : '0.1.1',
@@ -74,9 +74,9 @@ ext.libraries = [
         glideCompiler        : 'com.github.bumptech.glide:compiler:' + versions.glide,
         glideWebp            : 'com.zlc.glide:webpdecoder:1.4.' + versions.glide,
         // kext
-        kext                 : 'com.jahirfiquitiva.kext:core:' + versions.kext,
-        archHelpers          : 'com.jahirfiquitiva.kext:archhelpers:' + versions.kext + '@aar',
-        ziv                  : 'com.jahirfiquitiva.kext:ziv:' + versions.kext,
+        kext                 : 'com.github.coin3x.kext:core:' + versions.kext,
+        archHelpers          : 'com.github.coin3x.kext:archhelpers:' + versions.kext + '@aar',
+        ziv                  : 'com.github.coin3x.kext:ziv:' + versions.kext,
         // Sectioned RecyclerView
         sectionedRecyclerView: 'com.jahirfiquitiva:sectioned-recyclerview:' + versions.sectionedRecyclerView + '@aar',
         // RecyclerView FastScroll
