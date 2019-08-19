@@ -71,8 +71,8 @@ abstract class BaseFramesActivity<T : FramesKonfigs> : BaseWallpaperActionsActiv
     
     override fun lightTheme(): Int = R.style.LightTheme
     override fun darkTheme(): Int = R.style.DarkTheme
-    override fun amoledTheme(): Int = R.style.AmoledTheme
-    override fun transparentTheme(): Int = R.style.TransparentTheme
+//    override fun amoledTheme(): Int = R.style.AmoledTheme
+//    override fun transparentTheme(): Int = R.style.TransparentTheme
     
     var pickerKey: Int = 0
         private set

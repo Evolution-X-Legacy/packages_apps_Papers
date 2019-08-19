@@ -21,10 +21,12 @@
     <string-array name="themes_options">
         <item>@string/light_theme</item>
         <item>@string/dark_theme</item>
+<!--
         <item>@string/amoled_theme</item>
         <item>@string/transparent_theme</item>
         <item>@string/auto_dark</item>
         <item>@string/auto_amoled</item>
+-->
     </string-array>
 
     <bool name="isFrames">true</bool>

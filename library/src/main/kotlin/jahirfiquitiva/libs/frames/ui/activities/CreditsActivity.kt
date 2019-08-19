@@ -55,8 +55,8 @@ open class CreditsActivity : ThemedActivity<FramesKonfigs>() {
     override val prefs: FramesKonfigs by lazy { FramesKonfigs(this) }
     override fun lightTheme(): Int = R.style.LightTheme
     override fun darkTheme(): Int = R.style.DarkTheme
-    override fun amoledTheme(): Int = R.style.AmoledTheme
-    override fun transparentTheme(): Int = R.style.TransparentTheme
+//    override fun amoledTheme(): Int = R.style.AmoledTheme
+//    override fun transparentTheme(): Int = R.style.TransparentTheme
     
     override fun autoTintStatusBar(): Boolean = true
     override fun autoTintNavigationBar(): Boolean = true

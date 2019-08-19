@@ -125,8 +125,8 @@ open class ViewerActivity : BaseWallpaperActionsActivity<FramesKonfigs>() {
     
     override fun lightTheme(): Int = R.style.Viewer_LightTheme
     override fun darkTheme(): Int = R.style.Viewer_DarkTheme
-    override fun amoledTheme(): Int = R.style.Viewer_AmoledTheme
-    override fun transparentTheme(): Int = R.style.Viewer_TransparentTheme
+//    override fun amoledTheme(): Int = R.style.Viewer_AmoledTheme
+//    override fun transparentTheme(): Int = R.style.Viewer_TransparentTheme
     
     override fun autoTintStatusBar(): Boolean = false
     override fun autoTintNavigationBar(): Boolean = false
@@ -414,7 +414,7 @@ open class ViewerActivity : BaseWallpaperActionsActivity<FramesKonfigs>() {
         this.closing = savedInstanceState.getBoolean(CLOSING_KEY, false)
         this.transitioned = savedInstanceState.getBoolean(TRANSITIONED_KEY, false)
         currentWallPosition = savedInstanceState.getInt(CURRENT_WALL_POSITION, currentWallPosition)
-        wallPositionDifference = savedInstanceState?.getInt(POSITION_DIFF, wallPositionDifference)
+        wallPositionDifference = savedInstanceState.getInt(POSITION_DIFF, wallPositionDifference)
         setupProgressBarColors()
     }
     
