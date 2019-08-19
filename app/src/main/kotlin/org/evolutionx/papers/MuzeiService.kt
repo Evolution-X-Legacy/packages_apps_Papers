@@ -13,15 +13,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package jahirfiquitiva.apps.frames.sample
+package org.evolutionx.papers
 
-/* TODO: Remove comment marks to enable
-import com.onesignal.NotificationExtenderService
-import com.onesignal.OSNotificationReceivedResult
-import jahirfiquitiva.libs.frames.helpers.utils.FramesKonfigs
+import jahirfiquitiva.libs.frames.data.services.FramesArtProvider
 
-class NotificationService : NotificationExtenderService() {
-    override fun onNotificationProcessing(notification: OSNotificationReceivedResult?): Boolean =
-            !FramesKonfigs(this).notificationsEnabled
-}
-*/
+// TODO: Use a unique name instead of MyFramesMuzeiService
+//class MuzeiService : FramesArtProvider()

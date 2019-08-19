@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package jahirfiquitiva.apps.frames.sample
+package org.evolutionx.papers
 
 import com.github.javiersantos.piracychecker.PiracyChecker
 import jahirfiquitiva.libs.frames.ui.activities.FramesActivity
@@ -23,11 +23,11 @@ class MainActivity : FramesActivity() {
      * These things here have the default values. You can delete the ones you don't want to change
      * and/or modify the ones you want to.
      */
-    override var donationsEnabled = true
+    override var donationsEnabled = false
     
     override fun amazonInstallsEnabled(): Boolean = false
-    override fun checkLPF(): Boolean = true
-    override fun checkStores(): Boolean = true
+    override fun checkLPF(): Boolean = false
+    override fun checkStores(): Boolean = false
     
     /**
      * This is your app's license key. Get yours on Google Play Dev Console.
