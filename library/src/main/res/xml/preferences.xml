@@ -19,6 +19,7 @@
 
     <PreferenceCategory
         android:key="ui_settings"
+        android:layout="@layout/item_preference_category"
         android:title="@string/ui_settings_title">
 
         <SwitchPreference
@@ -38,6 +39,7 @@
 
     <PreferenceCategory
         android:key="storage_settings"
+        android:layout="@layout/item_preference_category"
         android:title="@string/storage_settings_title">
 
         <Preference
@@ -62,6 +64,7 @@
 
     <PreferenceCategory
         android:key="legal"
+        android:layout="@layout/item_preference_category"
         android:title="@string/legal">
 
         <Preference
