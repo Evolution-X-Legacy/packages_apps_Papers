@@ -50,6 +50,7 @@ import jahirfiquitiva.libs.frames.R
 import jahirfiquitiva.libs.frames.data.models.db.FavoritesDatabase
 import jahirfiquitiva.libs.frames.helpers.extensions.clearDataAndCache
 import jahirfiquitiva.libs.frames.helpers.extensions.dataCacheSize
+import jahirfiquitiva.libs.frames.helpers.extensions.getToolbarIconsColorFor
 import jahirfiquitiva.libs.frames.helpers.utils.DATABASE_NAME
 import jahirfiquitiva.libs.frames.helpers.utils.FL
 import jahirfiquitiva.libs.frames.helpers.utils.FramesKonfigs
@@ -144,7 +145,7 @@ open class CreditsActivity : ThemedActivity<FramesKonfigs>() {
         toolbar?.tint(
             getPrimaryTextColorFor(primaryColor),
             getSecondaryTextColorFor(primaryColor),
-            getActiveIconsColorFor(primaryColor))
+            getToolbarIconsColorFor(primaryColor))
         return super.onCreateOptionsMenu(menu)
     }
     

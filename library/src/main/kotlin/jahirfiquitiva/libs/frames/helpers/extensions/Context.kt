@@ -23,8 +23,10 @@ import android.graphics.drawable.Drawable
 import android.net.Uri
 import android.os.Build
 import android.os.Environment
+import androidx.annotation.ColorInt
 import androidx.fragment.app.Fragment
 import ca.allanwang.kau.utils.darken
+import ca.allanwang.kau.utils.isColorDark
 import ca.allanwang.kau.utils.lighten
 import ca.allanwang.kau.utils.showChangelog
 import jahirfiquitiva.libs.frames.R
@@ -139,3 +141,8 @@ fun Context.clearCache() {
     } catch (ignored: Exception) {
     }
 }
+
+@ColorInt
+fun Context.getToolbarIconsColorFor(@ColorInt color: Int, darkness: Float = 0.6F): Int =
+        if (color.isColorDark(darkness)) Color.parseColor("#ffffffff")
+        else Color.parseColor("#ff000000")
