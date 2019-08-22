@@ -58,7 +58,6 @@
         android:baselineAligned="false"
         android:clipToPadding="false"
         android:clipChildren="false"
-        android:foreground="?selectableItemBackground"
         android:hapticFeedbackEnabled="true"
         tools:ignore="UseCompoundDrawables">
 
@@ -113,7 +112,6 @@
             android:id="@+id/heart_icon"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:background="?selectableItemBackgroundBorderless"
             android:visibility="gone"
             android:layout_gravity="center"
             android:gravity="center"
