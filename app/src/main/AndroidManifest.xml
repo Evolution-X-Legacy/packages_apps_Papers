@@ -47,7 +47,8 @@
 
         <activity
             android:name=".MainActivity"
-            android:label="@string/app_name">
+            android:label="@string/app_name"
+            android:screenOrientation="userPortrait">
 
             <!-- TODO: Do NOT remove the intent-filter tags -->
             <intent-filter>
