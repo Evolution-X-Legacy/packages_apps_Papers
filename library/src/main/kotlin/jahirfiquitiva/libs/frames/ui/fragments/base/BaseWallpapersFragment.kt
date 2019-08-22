@@ -212,7 +212,7 @@ abstract class BaseWallpapersFragment : BaseFramesFragment<Wallpaper, WallpaperH
                 spanCount, it.dimenPixelSize(R.dimen.wallpapers_grid_spacing))
         } else {
             GridSpacingItemDecoration(
-                spanCount, it.dimenPixelSize(R.dimen.wallpapers_grid_spacing))
+                spanCount, 0)
         }
         recyclerView?.addItemDecoration(spacingDecoration)
     }

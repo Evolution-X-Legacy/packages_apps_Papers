@@ -23,13 +23,11 @@ import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.annotation.ColorInt
+import androidx.cardview.widget.CardView
 import androidx.core.view.ViewCompat
 import androidx.palette.graphics.Palette
 import androidx.recyclerview.widget.RecyclerView
-import ca.allanwang.kau.utils.gone
-import ca.allanwang.kau.utils.tint
-import ca.allanwang.kau.utils.visible
-import ca.allanwang.kau.utils.withAlpha
+import ca.allanwang.kau.utils.*
 import com.bumptech.glide.RequestManager
 import com.bumptech.glide.util.ViewPreloadSizeProvider
 import jahirfiquitiva.libs.frames.R
@@ -54,6 +52,7 @@ abstract class FramesViewClickListener<in T, in VH> {
 abstract class FramesWallpaperHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
     internal var wallpaper: Wallpaper? = null
     internal abstract val img: ImageView?
+    internal abstract val card: CardView?
     internal abstract val placeholderName: String
     
     internal abstract fun doWithPalette(palette: Palette? = null)
@@ -91,13 +90,13 @@ abstract class FramesWallpaperHolder(itemView: View) : RecyclerView.ViewHolder(i
             return
         }
         animator = smoothAnimator(context.tilesColor.withAlpha(0.4F), context.tilesColor) {
-            itemView.setBackgroundColor(it)
+            card?.setCardBackgroundColor(it)
         }
     }
     
     private fun stopLoading() {
         animator?.cancel()
-        itemView.setBackgroundColor(context.tilesColor)
+        card?.setCardBackgroundColor(context.tilesColor)
     }
     
     internal fun loadImage(manager: RequestManager?, url: String, thumbUrl: String) {
@@ -114,6 +113,7 @@ abstract class FramesWallpaperHolder(itemView: View) : RecyclerView.ViewHolder(i
 class CollectionHolder(itemView: View) : FramesWallpaperHolder(itemView) {
     override val img: ImageView?
         get() = itemView.findViewById(R.id.collection_picture)
+    override val card: CardView? by bind(R.id.card)
     
     private val detailsBg: LinearLayout? by bind(R.id.collection_details)
     private val title: TextView? by bind(R.id.collection_title)
@@ -156,14 +156,14 @@ class CollectionHolder(itemView: View) : FramesWallpaperHolder(itemView) {
                 if (context.boolean(R.bool.enable_filled_collection_preview))
                     COLLECTION_DETAILS_OPACITY
                 else DETAILS_OPACITY
-            
-            itemView.setBackgroundColor(color)
+
+            card?.setCardBackgroundColor(color)
             detailsBg?.background = null
             detailsBg?.setBackgroundColor(color.withAlpha(opacity))
             title?.setTextColor(context.getPrimaryTextColorFor(color))
             amount?.setTextColor(context.getSecondaryTextColorFor(color))
         } else {
-            itemView.setBackgroundColor(context.tilesColor)
+            card?.setCardBackgroundColor(context.tilesColor)
             detailsBg?.setBackgroundColor(0)
             detailsBg?.background = context.drawable(R.drawable.gradient)
             title?.setTextColor(gradPrimText)
@@ -183,6 +183,7 @@ class WallpaperHolder(itemView: View, private val showFavIcon: Boolean) :
     
     override val img: ImageView?
         get() = itemView.findViewById(R.id.wallpaper_image)
+    override val card: CardView? by bind(R.id.card)
     
     val name: TextView? by bind(R.id.wallpaper_name)
     val author: TextView? by bind(R.id.wallpaper_author)
@@ -234,18 +235,23 @@ class WallpaperHolder(itemView: View, private val showFavIcon: Boolean) :
             loadImage(manager, wallpaper.url, wallpaper.thumbUrl)
             img?.let { provider.setView(it) }
         }
-        itemView.setOnClickListener { listener.onSingleClick(wallpaper, this) }
-        itemView.setOnLongClickListener { listener.onLongClick(wallpaper, this);true }
+        card?.setOnClickListener { listener.onSingleClick(wallpaper, this) }
+        card?.setOnLongClickListener { listener.onLongClick(wallpaper, this);true }
+        detailsBg?.setOnClickListener { listener.onSingleClick(wallpaper, this) }
+        detailsBg?.setOnLongClickListener { listener.onLongClick(wallpaper, this);true }
     }
     
     override fun doWithPalette(palette: Palette?) {
+        card?.run {
+            animate().translationZ(4F.dpToPx)
+        }
         if (context.boolean(R.bool.enable_colored_tiles)) {
             val color = try {
                 palette?.bestSwatch?.rgb ?: context.tilesColor
             } catch (e: Exception) {
                 context.tilesColor
             }
-            itemView.setBackgroundColor(color)
+            card?.setCardBackgroundColor(color)
             detailsBg?.background = null
             detailsBg?.setBackgroundColor(color.withAlpha(DETAILS_OPACITY))
             name?.setTextColor(context.getPrimaryTextColorFor(color))
@@ -255,7 +261,7 @@ class WallpaperHolder(itemView: View, private val showFavIcon: Boolean) :
                 heartIcon?.setImageDrawable(context.createHeartIcon(shouldCheck)?.tint(heartColor))
             }
         } else {
-            itemView.setBackgroundColor(context.tilesColor)
+            card?.setCardBackgroundColor(context.tilesColor)
             detailsBg?.setBackgroundColor(0)
             detailsBg?.background = context.drawable(R.drawable.gradient)
             name?.setTextColor(gradPrimText)
