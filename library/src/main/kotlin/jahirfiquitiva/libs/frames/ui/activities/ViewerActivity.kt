@@ -463,7 +463,7 @@ open class ViewerActivity : BaseWallpaperActionsActivity<FramesKonfigs>() {
             }
             setSystemUIVisibility(false, withSystemBars = false)
             setResult(10, intent)
-            postDelayed(100) {
+            postDelayed(0) {
                 try {
                     supportFinishAfterTransition()
                 } catch (e: Exception) {

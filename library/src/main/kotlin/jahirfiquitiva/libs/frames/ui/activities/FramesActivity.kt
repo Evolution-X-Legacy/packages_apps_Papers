@@ -117,7 +117,7 @@ abstract class FramesActivity : BaseFramesActivity<FramesKonfigs>(), FavsDbManag
         tabs?.addOnTabSelectedListener(
             object : TabLayout.ViewPagerOnTabSelectedListener(pager) {
                 override fun onTabSelected(tab: TabLayout.Tab?) {
-                    tab?.let { postDelayed(50) { navigateToSection(it.position) } }
+                    tab?.let { postDelayed(0) { navigateToSection(it.position) } }
                 }
                 
                 override fun onTabReselected(tab: TabLayout.Tab?) = scrollToTop()
@@ -326,7 +326,7 @@ abstract class FramesActivity : BaseFramesActivity<FramesKonfigs>(), FavsDbManag
             try {
                 (it as? BaseFramesFragment<*, *>)?.enableRefresh(!filter.hasContent())
                 synchronized(lock) {
-                    postDelayed(150) {
+                    postDelayed(0) {
                         (it as? BaseFramesFragment<*, *>)?.applyFilter(filter, closed)
                     }
                 }

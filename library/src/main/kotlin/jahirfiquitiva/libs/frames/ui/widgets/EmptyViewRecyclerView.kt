@@ -151,7 +151,7 @@ open class EmptyViewRecyclerView : RecyclerView {
         (this as? ImageView)?.drawable?.applyColorFilter(context.activeIconsColor)
         visible()
         (this as? ImageView)?.let {
-            postDelayed(250) { (it.drawable as? Animatable)?.start() }
+            postDelayed(0) { (it.drawable as? Animatable)?.start() }
         }
     }
     

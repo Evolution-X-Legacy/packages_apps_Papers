@@ -195,7 +195,7 @@ class CollectionActivity : BaseFramesActivity<FramesKonfigs>(), FavsDbManager {
     private fun doSearch(filter: String = "", closed: Boolean = false) {
         try {
             synchronized(lock) {
-                postDelayed(150) { frag?.applyFilter(filter, closed) }
+                postDelayed(0) { frag?.applyFilter(filter, closed) }
             }
         } catch (ignored: Exception) {
         }

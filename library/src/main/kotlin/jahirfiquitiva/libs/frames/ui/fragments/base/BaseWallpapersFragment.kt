@@ -179,7 +179,7 @@ abstract class BaseWallpapersFragment : BaseFramesFragment<Wallpaper, WallpaperH
     
     fun configureRVColumns(force: Boolean = false) {
         if (configs.columns != spanCount || force) {
-            postDelayed(10) { internalConfigureRVColumns() }
+            postDelayed(0) { internalConfigureRVColumns() }
         }
     }
     

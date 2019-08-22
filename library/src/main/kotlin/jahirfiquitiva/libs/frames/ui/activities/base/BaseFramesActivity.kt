@@ -105,7 +105,7 @@ abstract class BaseFramesActivity<T : FramesKonfigs> : BaseWallpaperActionsActiv
     
     override fun setContentView(layoutResID: Int) {
         super.setContentView(layoutResID)
-        postDelayed(50) { startLicenseCheck() }
+        postDelayed(0) { startLicenseCheck() }
     }
     
     override fun onSaveInstanceState(outState: Bundle?) {

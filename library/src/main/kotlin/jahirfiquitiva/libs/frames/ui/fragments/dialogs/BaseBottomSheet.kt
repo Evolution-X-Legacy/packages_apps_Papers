@@ -78,7 +78,7 @@ open class BaseBottomSheet : RoundedBottomSheetDialogFragment() {
     
     fun hide() {
         behavior?.state = BottomSheetBehavior.STATE_COLLAPSED
-        postDelayed(10) {
+        postDelayed(0) {
             behavior?.state = BottomSheetBehavior.STATE_HIDDEN
         }
     }
