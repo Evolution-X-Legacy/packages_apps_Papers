@@ -435,13 +435,6 @@ abstract class BaseWallpapersFragment : BaseFramesFragment<Wallpaper, WallpaperH
             ?.addOnPreDrawListener(object : ViewTreeObserver.OnPreDrawListener {
                 override fun onPreDraw(): Boolean {
                     recyclerView?.viewTreeObserver?.removeOnPreDrawListener(this)
-                    val holder =
-                        recyclerView?.findViewHolderForAdapterPosition(
-                            position) as? WallpaperHolder?
-                    holder?.let {
-                        wallElementsCallback.setSharedElementViews(
-                            it.img, it.name, it.author)
-                    }
                     activity?.safeStartPostponedEnterTransition()
                     return true
                 }

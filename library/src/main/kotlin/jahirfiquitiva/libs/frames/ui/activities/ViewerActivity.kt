@@ -194,7 +194,6 @@ open class ViewerActivity : BaseWallpaperActionsActivity<FramesKonfigs>() {
         intent?.getParcelableArrayListExtra<Wallpaper>("wallpapers")?.let {
             wallpapersList.clear()
             wallpapersList.addAll(it)
-            changeGoBtnsVisibility(true)
         }
         
         intent?.getParcelableArrayListExtra<Collection>("collections")?.let {
@@ -280,11 +279,6 @@ open class ViewerActivity : BaseWallpaperActionsActivity<FramesKonfigs>() {
         clearInfo()
         initWallpaperSetup()
         if (extra != 0) {
-            img?.animate()
-                ?.alpha(0.25F)
-                ?.setDuration(250)
-                ?.setInterpolator(AccelerateDecelerateInterpolator())
-                ?.start()
             setupWallpaper(wallpaper, original = false)
             loadWallpaperDetails(true)
         }
@@ -306,15 +300,7 @@ open class ViewerActivity : BaseWallpaperActionsActivity<FramesKonfigs>() {
             if (it.trim().hasContent()) toolbarSubtitle?.text = it
             else toolbarSubtitle?.gone()
         }
-        
-        val imgTransitionName = "img_transition_$currentWallPosition"
-        val nameTransitionName = "name_transition_$currentWallPosition"
-        val authorTransitionName = "author_transition_$currentWallPosition"
-        
-        toolbarTitle.notNull { ViewCompat.setTransitionName(it, nameTransitionName) }
-        toolbarSubtitle.notNull { ViewCompat.setTransitionName(it, authorTransitionName) }
-        img.notNull { ViewCompat.setTransitionName(it, imgTransitionName) }
-        
+
         val downloadable = wallpaper?.downloadable == true
         val hasChecker = intent?.getBooleanExtra("checker", false) ?: false
         
@@ -355,8 +341,6 @@ open class ViewerActivity : BaseWallpaperActionsActivity<FramesKonfigs>() {
         if (showFavoritesButton) {
             val favIcon = drawable(if (isInFavorites) "ic_heart" else "ic_heart_outline")
             val favImageView: ImageView? by bind(R.id.fav_button)
-//            val favTransitionName = "fav_transition_$currentWallPosition"
-//            favImageView.notNull { ViewCompat.setTransitionName(it, favTransitionName) }
             favImageView?.setImageDrawable(favIcon)
             findViewById<View>(R.id.fav_button).setOnClickListener {
                 doItemClick(FAVORITE_ACTION_ID)
@@ -365,7 +349,6 @@ open class ViewerActivity : BaseWallpaperActionsActivity<FramesKonfigs>() {
             findViewById<View>(R.id.fav_container).gone()
         }
         
-        changeGoBtnsVisibility(visibleSystemUI)
         setupWallpaper(wallpaper, true)
         startEnterTransition()
         loadWallpaperDetails()
@@ -515,7 +498,7 @@ open class ViewerActivity : BaseWallpaperActionsActivity<FramesKonfigs>() {
             img?.loadPicture(
                 glideManager, it.url, it.thumbUrl, drawable,
                 fitCenter = true, circular = false,
-                withTransition = true, forceFullRes = true,
+                withTransition = false, forceFullRes = false,
                 listener = quickListener { res ->
                     loaded = true
                     doOnWallpaperLoad(res)
@@ -525,11 +508,7 @@ open class ViewerActivity : BaseWallpaperActionsActivity<FramesKonfigs>() {
     
     private fun doOnWallpaperLoad(resource: Drawable?): Boolean = try {
         img?.setImageDrawable(resource)
-        img?.animate()?.alpha(1F)?.setDuration(250)
-            ?.setInterpolator(AccelerateDecelerateInterpolator())
-            ?.start()
         postPalette(resource)
-        startEnterTransition()
         true
     } catch (e: Exception) {
         FL.e(e.message, e)
@@ -771,7 +750,6 @@ open class ViewerActivity : BaseWallpaperActionsActivity<FramesKonfigs>() {
     
     private fun changeBarsVisibility(show: Boolean) {
         changeAppBarVisibility(show)
-        changeGoBtnsVisibility(show)
         changeBottomBarVisibility(show)
     }
     
@@ -781,37 +759,7 @@ open class ViewerActivity : BaseWallpaperActionsActivity<FramesKonfigs>() {
             ?.setInterpolator(AccelerateDecelerateInterpolator())
             ?.start()
     }
-    
-    private fun changeGoBtnsVisibility(show: Boolean) {
-        previousWallBtn?.animate()
-            ?.alpha(if (show && wallpapersList.size > 1 && currentWallPosition > 0) 1F else 0F)
-            ?.setInterpolator(AccelerateDecelerateInterpolator())
-            ?.withStartAction { updateGoPreviousBtnVisibility(true) }
-            ?.withEndAction { updateGoPreviousBtnVisibility(show) }
-            ?.start()
-        nextWallBtn?.animate()
-            ?.alpha(
-                if (show && wallpapersList.size > 1 && currentWallPosition < wallpapersList.size - 1) 1F
-                else 0F)
-            ?.setInterpolator(AccelerateDecelerateInterpolator())
-            ?.withStartAction { updateGoNextBtnVisibility(true) }
-            ?.withEndAction { updateGoNextBtnVisibility(show) }
-            ?.start()
-    }
-    
-    private fun updateGoPreviousBtnVisibility(show: Boolean) {
-        if (show) {
-            previousWallBtn?.visibleIf(wallpapersList.size > 1 && currentWallPosition > 0)
-        } else previousWallBtn?.gone()
-    }
-    
-    private fun updateGoNextBtnVisibility(show: Boolean) {
-        if (show) {
-            nextWallBtn?.visibleIf(
-                wallpapersList.size > 1 && currentWallPosition < wallpapersList.size - 1)
-        } else nextWallBtn?.gone()
-    }
-    
+
     private fun changeBottomBarVisibility(show: Boolean) {
         val bottomBarParent = bottomBar?.parent as? View ?: return
         visibleBottomBar = show
