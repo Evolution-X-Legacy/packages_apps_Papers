@@ -239,6 +239,7 @@ class WallpaperHolder(itemView: View, private val showFavIcon: Boolean) :
         card?.setOnLongClickListener { listener.onLongClick(wallpaper, this);true }
         detailsBg?.setOnClickListener { listener.onSingleClick(wallpaper, this) }
         detailsBg?.setOnLongClickListener { listener.onLongClick(wallpaper, this);true }
+        heartIcon?.setOnLongClickListener { listener.onLongClick(wallpaper, this);true }
     }
     
     override fun doWithPalette(palette: Palette?) {
