@@ -59,14 +59,17 @@ data class Credit(
                 "Joey Huab", "https://avatars3.githubusercontent.com/u/6667815?s=400", Type.ROM,
                 "https://github.com/Stallix/")
         private val AKITO = Credit(
-                "アキト ミズキト", "https://avatars0.githubusercontent.com/u/44841395?s=400", Type.ROM,
+                "ミズキト あきと", "https://avatars0.githubusercontent.com/u/44841395?s=400", Type.ROM,
                 "https://github.com/peaktogoo/")
-        private val BLISS = Credit(
-                "Anierin Bliss", "https://avatars3.githubusercontent.com/u/29746164?s=400", Type.ROM,
-                "https://github.com/AnierinBliss/")
+        private val VINCE = Credit(
+                "Vince Linise", "https://avatars0.githubusercontent.com/u/32978709?s=400", Type.ROM,
+                "https://github.com/ecnivtwelve/")
         private val SHEN = Credit(
                 "Wenlin Shen", "https://avatars1.githubusercontent.com/u/21334079?s=400", Type.ROM,
                 "https://github.com/hugwalk/")
+        private val DAGR = Credit(
+                "DarkAngelGR", "https://avatars1.githubusercontent.com/u/43799929?s=400", Type.ROM,
+                "https://github.com/DarkAngelGR/")
 
         private val JAMES = Credit(
             "James Fenn", "https://goo.gl/6Wc5rK", Type.DEV_CONTRIBUTION,
@@ -105,7 +108,7 @@ data class Credit(
             Type.UI_CONTRIBUTION, "https://twitter.com/link6155")
         
         val EXTRA_CREDITS = arrayListOf(
-            JOEY, AKITO, BLISS, SHEN,
+            JOEY, AKITO, VINCE, SHEN, DAGR,
             JAMES, MAX, SASI, ALEX, LUKAS,
             PATRYK, LUMIQ, KEVIN, EDUARDO, ANTHONY)
     }
