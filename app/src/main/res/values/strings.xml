@@ -22,7 +22,7 @@
 
     <!--    TODO: Change this link -->
     <!--    This is the link for the JSON file where you have listed your wallpapers -->
-    <string name="json_url">https://raw.githubusercontent.com/hugwalk/Evolution-X-Wallpapers/master/wallpapers.json</string>
+    <string name="json_url">https://raw.githubusercontent.com/Evolution-X/Wallpapers/master/wallpapers.json</string>
 
     <!--    Default wallpapers download folder. Always write it like '%1$s/xxxxxxx' -->
     <string name="default_download_folder">%1$s/Papers</string>
