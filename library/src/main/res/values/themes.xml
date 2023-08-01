@@ -56,7 +56,7 @@
         <item name="md_divider_color">#1F000000</item>
 
         <item name="isDarkTheme">false</item>
-        <item name="android:fontFamily">inter</item>
+        <item name="android:fontFamily">google-sans</item>
         <item name="android:windowLayoutInDisplayCutoutMode">shortEdges</item>
         <item name="colorControlNormal">#48000000</item>
     </style>
@@ -85,13 +85,13 @@
         <item name="md_divider_color">#1FFFFFFF</item>
 
         <item name="isDarkTheme">true</item>
-        <item name="android:fontFamily">inter</item>
+        <item name="android:fontFamily">google-sans</item>
         <item name="android:windowLayoutInDisplayCutoutMode">shortEdges</item>
         <item name="colorControlNormal">#48FFFFFF</item>
     </style>
 
     <style name="Frames.ActionBar.Title" parent="TextAppearance.AppCompat.Widget.ActionBar.Title">
-        <item name="android:fontFamily">inter-medium</item>
+        <item name="android:fontFamily">google-sans-medium</item>
     </style>
 
     <style name="Frames.Base.Amoled" parent="Frames.Base.Dark">
