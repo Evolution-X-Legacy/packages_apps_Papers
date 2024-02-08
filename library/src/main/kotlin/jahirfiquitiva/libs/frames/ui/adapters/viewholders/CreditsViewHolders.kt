@@ -57,16 +57,13 @@ data class Credit(
     companion object {
         private val JOEY = Credit(
                 "Joey Huab", "https://avatars3.githubusercontent.com/u/6667815?s=400", Type.ROM,
-                "https://github.com/shaughzam")
+                "https://linktr.ee/shaazice")
         private val AKITO = Credit(
                 "ミズキト あきと", "https://avatars0.githubusercontent.com/u/44841395?s=400", Type.ROM,
                 "https://github.com/RealAkito")
         private val BLISS = Credit(
                 "Anierin Bliss", "https://avatars3.githubusercontent.com/u/29746164?s=400", Type.ROM,
                 "https://github.com/AnierinBliss")
-        private val DAGR = Credit(
-                "DarkAngelGR", "https://avatars1.githubusercontent.com/u/43799929?s=400", Type.ROM,
-                "https://github.com/DarkAngelGR")
 
         private val JAMES = Credit(
             "James Fenn", "https://goo.gl/6Wc5rK", Type.DEV_CONTRIBUTION,
@@ -105,7 +102,7 @@ data class Credit(
             Type.UI_CONTRIBUTION, "https://twitter.com/link6155")
         
         val EXTRA_CREDITS = arrayListOf(
-            JOEY, AKITO, VINCE, SHEN, DAGR,
+            JOEY, AKITO, BLISS,
             JAMES, MAX, SASI, ALEX, LUKAS,
             PATRYK, LUMIQ, KEVIN, EDUARDO, ANTHONY)
     }
